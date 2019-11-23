@@ -1,0 +1,20 @@
+{
+  "name": "react-store-data",
+  "version": "1.0.2",
+  "description": "",
+  "main": "index.js",
+  "author": "yura.pustylnikov@gmail.com",
+  "license": "MIT",
+  "homepage": "https://github.com/pustylnikov/react-store-data",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pustylnikov/react-store-data.git"
+  },
+  "peerDependencies": {
+    "react": "*"
+  },
+  "keywords": [
+    "react",
+    "store"
+  ]
+}
