@@ -4,13 +4,13 @@ type LikeObject = { [key: string]: any };
 type Options = {
     forwardRef?: boolean;
 };
-
-type Connect<S> = (Node: ReactNode, observer: (state: S) => LikeObject, options?: Options) => ReactNode;
+type Listener<S> = (state: S) => LikeObject;
+type Connect<S> = (Node: ReactNode, listener: Listener<S>, options?: Options) => ReactNode;
 
 interface Store<S> {
     getStore: () => S;
     set: (data: Partial<S>, silent?: boolean) => void,
-    addListener: (state: S) => LikeObject,
+    addListener: (listener: Listener<S>) => () => any,
 }
 
 export function createStore<S = LikeObject>(initialState: S): Store<S>;
