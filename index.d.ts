@@ -10,7 +10,7 @@ type Connect<S> = (Node: ReactNode, listener: Listener<S>, options?: Options) =>
 interface Store<S> {
     getStore: () => S;
     set: (data: Partial<S>, silent?: boolean) => void,
-    addListener: (listener: Listener<S>) => () => any,
+    addListener: (listener: Listener<S>) => () => void,
 }
 
 export function createStore<S = LikeObject>(initialState: S): Store<S>;
