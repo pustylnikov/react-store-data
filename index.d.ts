@@ -1,16 +1,17 @@
-import {ReactNode} from "react";
+import {ElementType} from "react";
 
 type LikeObject = { [key: string]: any };
+
 type Options = {
     forwardRef?: boolean;
 };
-type Listener<S> = (state: S) => LikeObject;
-type Connect<S> = (Node: ReactNode, listener: Listener<S>, options?: Options) => ReactNode;
+
+type Connect<S> = <P, T>(Component: ElementType<P & T>, listener: (state: S) => P, options?: Options) => ElementType<T>;
 
 interface Store<S> {
     getStore: () => S;
     set: (data: Partial<S>, silent?: boolean) => void,
-    addListener: (listener: Listener<S>) => () => void,
+    addListener: (listener: (state: S) => LikeObject) => () => void,
 }
 
 export function createStore<S = LikeObject>(initialState: S): Store<S>;
