@@ -6,11 +6,11 @@ export default function (store) {
         forwardRef: false,
     };
 
-    const withState = (observer) => {
-        const [state, setState] = useState(observer(store.getStore()));
+    const withState = (mapStateToProps) => {
+        const [state, setState] = useState(mapStateToProps(store.getStore()));
         useEffect(() => {
             const unsubscribe = store.addListener(function (data) {
-                setState(observer(data));
+                setState(mapStateToProps(data));
             });
             return () => {
                 unsubscribe();
@@ -19,17 +19,20 @@ export default function (store) {
         return state;
     };
 
-    const connect = (Node, observer, options = {}) => {
+    const connect = (mapStateToProps, mapDispatchToProps) => (Component, options = {}) => {
         const _options = {...defaultOptions, ...options};
+        const dispatchProps = mapDispatchToProps
+            ? mapDispatchToProps(store.dispatch, store.getStore)
+            : {};
         if (_options.forwardRef === true) {
             return React.forwardRef((props, ref) => {
-                const state = withState(observer);
-                return <Node {...props} {...state} ref={ref}/>;
+                const state = withState(mapStateToProps);
+                return <Component {...dispatchProps} {...props} {...state} ref={ref}/>;
             });
         }
         return props => {
-            const state = withState(observer);
-            return <Node {...props} {...state}/>;
+            const state = withState(mapStateToProps);
+            return <Component {...dispatchProps} {...props} {...state}/>;
         };
     };
 

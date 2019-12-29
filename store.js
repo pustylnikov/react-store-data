@@ -1,19 +1,19 @@
-export default function (initialState) {
+export default function (initialState, middleware) {
+
+    const listeners = {};
 
     let store = initialState;
-    const listeners = {};
 
     const getStore = () => {
         return store;
     };
 
-    const set = (data = {}, silent = false) => {
-        store = {...store, ...data};
-        if (silent === false) {
-            Object.getOwnPropertySymbols(listeners).forEach(key => {
-                listeners[key].call(undefined, store);
-            });
-        }
+    const dispatch = (payload = {}) => {
+        store = {...store, ...payload};
+        middleware && middleware.call(undefined, payload, store);
+        Object.getOwnPropertySymbols(listeners).forEach(key => {
+            listeners[key].call(undefined, store);
+        });
     };
 
     const addListener = (listener) => {
@@ -29,7 +29,7 @@ export default function (initialState) {
 
     return {
         getStore,
-        set,
         addListener,
+        dispatch,
     };
 }
