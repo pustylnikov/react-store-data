@@ -26,12 +26,12 @@ export default function (store) {
             : {};
         if (_options.forwardRef === true) {
             return React.forwardRef((props, ref) => {
-                const state = withState(mapStateToProps);
+                const state = mapStateToProps ? withState(mapStateToProps) : {};
                 return <Component {...dispatchProps} {...props} {...state} ref={ref}/>;
             });
         }
         return props => {
-            const state = withState(mapStateToProps);
+            const state = mapStateToProps ? withState(mapStateToProps) : {};
             return <Component {...dispatchProps} {...props} {...state}/>;
         };
     };

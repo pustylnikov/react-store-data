@@ -24,7 +24,7 @@ const unsubscribe = store.addListener(state => {
     console.log(state); // {key: 'new value'}
 });
 
-store.set({key: 'new value'});
+store.dispatch({key: 'new value'});
 
 // Unregister listener
 unsubscribe();
@@ -55,5 +55,5 @@ export default connect(App, state => ({
     text: state.text
 }));
 
-store.set({text: 'Hello World'});
+store.dispatch({text: 'Hello World'});
 ```
